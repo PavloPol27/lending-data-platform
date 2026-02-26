@@ -38,4 +38,31 @@ Filtered on: due_date = given date
     - else:
         `dpd = 0`
 2. On the loan-day level:
+
     `days_past_due = MAX(dpd)` for all installments loans.
+
+## KPI #3
+
+**Name:** `deliquency_bucket`.
+
+**Grain:** `loan_id` + `as_of_date` (loan day).
+
+**Definition:** Categorical bucket derived from `days_past_due`.
+
+**Rule:**
+
+- 0 → current
+- 1–30 → dpd_01_30
+- 31–60 → dpd_31_60
+- 61–90 → dpd_61_90
+- 90+ → dpd_90_plus
+
+## KPI #4
+
+**Name:** `outstanding_balance`
+
+**Grain:** loan_id + as_of_date
+
+**Definition:** Remaining unpaid principal amount of a loan as of a specific date.
+
+**Formula:** `outstanding_balance = original_principal − cumulative_principal_paid` (up to as_of_date)
